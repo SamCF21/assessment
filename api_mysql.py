@@ -41,20 +41,26 @@ def load_model():
         with open('modelo_crop_api.pkl', 'rb') as f:
             model_data = pickle.load(f)
         
-        # Reconstruir el modelo
-        architecture = model_data['architecture']
-        model = NClassifier(architecture)
-        model.load_state_dict(model_data['model_state_dict'])
-        model.eval()
-        
-        crop_encoder = model_data['crop_encoder']
+        # Verificar si tiene formato viejo (con model_architecture)
+        if 'model_architecture' in model_data:
+            print("Cargando modelo en formato original")
+            model = model_data['model_architecture']
+            crop_encoder = model_data['crop_encoder']
+            model.eval()
+        else:
+            print("Cargando modelo en formato API")
+            # Formato nuevo
+            architecture = model_data['architecture']
+            model = NClassifier(architecture)
+            model.load_state_dict(model_data['model_state_dict'])
+            model.eval()
+            crop_encoder = model_data['crop_encoder']
         
         print("Modelo cargado desde modelo_crop_api.pkl")
         return model, crop_encoder
         
     except FileNotFoundError:
         print("No se encontró modelo_crop_api.pkl")
-        print("Ejecuta primero: python save_model_standalone.py")
         return None, None
     except Exception as e:
         print(f"Error cargando modelo: {e}")

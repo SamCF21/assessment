@@ -304,4 +304,21 @@ def predict_all_crops(model, crop_code):
 
 predict_all_crops(model, crop_code)
 
+print("\n Guardando el mejor modelo...")
+
+# Guardar el último modelo entrenado (puedes modificar para guardar el mejor)
+import pickle
+
+model_data = {
+    'model_state_dict': model.state_dict(),
+    'model_architecture': model,
+    'crop_encoder': crop_code
+}
+
+with open('modelo_crop.pkl', 'wb') as f:
+    pickle.dump(model_data, f)
+
+print("Modelo guardado exitosamente en modelo_crop.pkl")
+print("Archivo creado:", os.path.abspath('modelo_crop.pkl'))
+
 
