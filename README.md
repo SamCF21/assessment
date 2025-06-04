@@ -1,26 +1,36 @@
-# 🌾 Crop Classifier Web App (Cloud-Based)
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-This project is a full-stack web application that allows users to receive crop recommendations based on soil and environmental conditions. The solution is powered by a trained neural network model deployed in our university's cloud infrastructure.
+## Getting Started
 
-Users interact through a web interface, and their input is processed in the backend via an API, which returns the most suitable crop to plant.
+First, run the development server:
 
----
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## 🚀 Project Goals
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- Deploy a machine learning crop classifier in the cloud.
-- Build a user-friendly frontend for data input.
-- Connect frontend and backend through a RESTful API.
-- Support users with intelligent crop recommendations.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
----
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## 📊 Model Overview
+## Learn More
 
-- Neural network trained on a dataset of 2200+ crop records.
-- Inputs: `N`, `P`, `K`, `temperature`, `humidity`, `pH`, `rainfall`.
-- Outputs: Crop label prediction (22 classes).
-- Loss function: CrossEntropyLoss
-- Optimizer: Adam
+To learn more about Next.js, take a look at the following resources:
 
----
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
