@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from torch import optim, nn, utils, Tensor
 from torch.utils.data import random_split, DataLoader, TensorDataset
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
@@ -18,8 +18,12 @@ label = dataset["label"]
 crop_code = LabelEncoder() # Crea el codificador de etiquetas
 label = crop_code.fit_transform(label) # Se reemplaza cada label por un número
 # print(label)
+# Normalización de características
+scaler = StandardScaler()
+characteristics_scaled = scaler.fit_transform(characteristics)
 
-x_tensor = torch.tensor(characteristics.values, dtype=torch.float32) # Se convierten las caracteristicas a tensor a floats
+x_tensor = torch.tensor(characteristics_scaled, dtype=torch.float32)
+# Se convierten las caracteristicas a tensor a floats
 y_tensor = torch.tensor(label, dtype=torch.long) # Se convierten las labels a enteros tipo long
 full_dataset = TensorDataset(x_tensor, y_tensor) # Se unen las caracteristicas y las labels
 # print(y_tensor[:5])
@@ -232,7 +236,7 @@ for i in range(len(architectures)):
   plt.tight_layout()
   plt.show()
 
-# Funcion para proabr el modelo con ejemplos
+# Funcion para probar el modelo con ejemplos
 def predict_crop(model, crop_encoder, input_features, use_cuda=True):
     model.eval()
     input_tensor = torch.tensor(input_features, dtype=torch.float32).unsqueeze(0)
@@ -270,6 +274,7 @@ sample_pigeonpeas = [20.73, 67.73, 20.29, 27.74, 48.06, 5.79, 149.46]
 sample_pomegranate = [18.87, 18.75, 40.21, 21.84, 90.13, 6.43, 107.53]
 sample_rice = [79.89, 47.58, 39.87, 23.69, 82.27, 6.43, 236.18]
 sample_watermelon = [99.42, 17.0, 50.22, 25.59, 85.16, 6.5, 50.79]
+sample_rice_2 = [90, 42, 43, 20.9, 82.0, 6.5, 202.9] # Ejemplo de rice
 
 
 def predict_all_crops(model, crop_code):
@@ -295,7 +300,8 @@ def predict_all_crops(model, crop_code):
         "pigeonpeas": sample_pigeonpeas,
         "pomegranate": sample_pomegranate,
         "rice": sample_rice,
-        "watermelon": sample_watermelon
+        "watermelon": sample_watermelon,
+        "rice_2": sample_rice_2
     }
 
     for name, sample in samples.items():
