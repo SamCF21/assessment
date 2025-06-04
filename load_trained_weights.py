@@ -14,7 +14,7 @@ class NClassifier(nn.Module):
         return self.encoder(x)
 
 # Cargar datos y preparar encoder
-dataset = pd.read_csv('Crop_recommendation.csv')
+dataset = pd.read_csv('/Users/samanthacovarrubiasfigueroa/Documents/progra/Py/crops/Crop_recommendation.csv')
 label = dataset["label"]
 crop_code = LabelEncoder()
 label_encoded = crop_code.fit_transform(label)
