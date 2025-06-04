@@ -373,24 +373,24 @@ def get_all_crops():
 if __name__ == '__main__':
     print("=" * 50)
     if MODEL is None:
-        print("⚠️  Modelo NO cargado")
-        print("💡 Ejecuta: python save_model_standalone.py")
+        print("Modelo NO cargado")
+        print("Ejecuta: python save_model_standalone.py")
     else:
-        print("✅ Modelo cargado correctamente")
-        print(f"🌱 {len(CROP_ENCODER.classes_)} cultivos disponibles")
+        print("Modelo cargado correctamente")
+        print(f"{len(CROP_ENCODER.classes_)} cultivos disponibles")
     
     try:
         connection = get_db_connection()
         if connection:
-            print("✅ Base de datos conectada")
+            print("Base de datos conectada")
             connection.close()
         else:
-            print("❌ Error de conexión a BD")
+            print("Error de conexión a BD")
     except:
-        print("❌ Error de conexión a BD")
+        print("Error de conexión a BD")
     
     print("=" * 50)
-    print("🚀 Iniciando API Flask en puerto 5001...")
+    print("Iniciando API Flask en puerto 5001...")
     
     # Usar puerto 5001 en lugar de 5000
     app.run(debug=True, host='0.0.0.0', port=5001)
