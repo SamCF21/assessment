@@ -60,27 +60,18 @@ services:
     networks:
       - cloudy
 
-  frontend1:
+  frontend:
     build:
       context: ./FrontEnd
     depends_on:
       - backend1
       - backend2
-    ports:
-      - "3001:3000"
+    expose:
+      - "3000"
     networks:
       - cloudy
 
-  frontend2:
-    build:
-      context: ./FrontEnd
-    depends_on:
-      - backend1
-      - backend2
-    ports:
-      - "3002:3000"
-    networks:
-      - cloudy
+  
 
 volumes:
   db_data:
