@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mysql:8
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: crop_classifier_db
+      MYSQL_USER: usuario_app
+      MYSQL_PASSWORD: pass_app
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

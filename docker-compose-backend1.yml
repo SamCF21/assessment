@@ -1,0 +1,12 @@
+services:
+  backend1:
+      build:
+        context: ./Backend
+      environment:
+        DB_HOST: 172.22.0.133 # Instancia cropwise_db
+        DB_PORT: 3306
+        DB_NAME: crop_classifier_db
+        DB_USER: usuario_app
+        DB_PASSWORD: pass_app
+      ports:
+        - "5001:5001"
