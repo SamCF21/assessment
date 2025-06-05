@@ -20,7 +20,7 @@ export default function Home() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  /*const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsedData = {
       nitrogen: parseInt(formData.nitrogen, 10),
@@ -44,7 +44,46 @@ export default function Home() {
 
     console.log('Input:', inputArray)
 
+  };*/
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    const parsedData = {
+      N: parseFloat(formData.nitrogen),
+      P: parseFloat(formData.phosphorus),
+      K: parseFloat(formData.potassium),
+      temperature: parseFloat(formData.temperature),
+      humidity: parseFloat(formData.humidity),
+      ph: parseFloat(formData.ph),
+      rainfall: parseFloat(formData.rainfall)
+    };
+  
+    console.log('Enviando a la API:', parsedData);
+  
+    try {
+      const response = await fetch('http://localhost:5001/predict-simple', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(parsedData)
+      });
+  
+      const result = await response.json();
+  
+      if (result.success) {
+        alert(`Predicted Crop: ${result.predicted_crop} (Confianza: ${(result.confidence * 100).toFixed(2)}%)`);
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+  
+    } catch (error) {
+      console.error('Error al llamar a la API:', error);
+      alert('Error al conectar con la API');
+    }
   };
+  
 
   return (
     <div className="min-h-screen flex">
