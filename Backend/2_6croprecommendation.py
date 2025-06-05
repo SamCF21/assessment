@@ -221,16 +221,16 @@ for i in range(len(architectures)):
   accuracy_total = (confusion_mtx.diag().sum().item() / total) * 100
   print(f"Accuracy: {accuracy_total:.2f}%")
 
-  plt.figure(figsize=(10, 6))
-  plt.plot(train_loss_history, label='Train Loss', marker='o')
-  plt.plot(val_loss_history, label='Validation Loss', marker='o')
-  plt.title("Pérdida de Entrenamiento vs Validación")
-  plt.xlabel("Época")
-  plt.ylabel("Loss")
-  plt.legend()
-  plt.grid(True)
-  plt.tight_layout()
-  plt.show()
+#   plt.figure(figsize=(10, 6))
+#   plt.plot(train_loss_history, label='Train Loss', marker='o')
+#   plt.plot(val_loss_history, label='Validation Loss', marker='o')
+#   plt.title("Pérdida de Entrenamiento vs Validación")
+#   plt.xlabel("Época")
+#   plt.ylabel("Loss")
+#   plt.legend()
+#   plt.grid(True)
+#   plt.tight_layout()
+#   plt.show()
 
 # Funcion para proabr el modelo con ejemplos
 def predict_crop(model, crop_encoder, input_features, use_cuda=True):
