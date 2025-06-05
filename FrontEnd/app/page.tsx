@@ -1,7 +1,9 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter(); 
   const [formData, setFormData] = useState({
     nitrogen: '',
     phosphorus: '',
@@ -49,6 +51,13 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Login required.");
+    return;
+  }
+
     const parsedData = {
       N: parseFloat(formData.nitrogen),
       P: parseFloat(formData.phosphorus),
@@ -56,7 +65,8 @@ export default function Home() {
       temperature: parseFloat(formData.temperature),
       humidity: parseFloat(formData.humidity),
       ph: parseFloat(formData.ph),
-      rainfall: parseFloat(formData.rainfall)
+      rainfall: parseFloat(formData.rainfall),
+      //location: "default" // Rervisar esto  
     };
   
     console.log('Enviando a la API:', parsedData);
@@ -65,7 +75,8 @@ export default function Home() {
       const response = await fetch('http://localhost:5001/predict-simple', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(parsedData)
       });
@@ -131,6 +142,15 @@ export default function Home() {
             </button>
           </div>
         </form>
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            router.push('/login');
+          }}
+          className="text-sm text-red-600 hover:underline"
+        >
+          Sign out
+      </button>
       </main>
     </div>
   );
