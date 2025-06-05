@@ -16,11 +16,14 @@ app.secret_key = 'clave_secreta_muy_segura'
 CORS(app)
 
 # Configuración de la base de datos
+import os
+
 DB_CONFIG = {
-    'host': 'localhost',
-    'database': 'crop_classifier_db',
-    'user': 'root',
-    'password': '', #cambiar
+    'host': os.getenv("DB_HOST", "localhost"),
+    'port': int(os.getenv("DB_PORT", 3306)),
+    'database': os.getenv("DB_NAME", "crop_classifier_db"),
+    'user': os.getenv("DB_USER", "usuario_app"),
+    'password': os.getenv("DB_PASSWORD", "pass_app"),
     'charset': 'utf8mb4',
     'collation': 'utf8mb4_unicode_ci'
 }
