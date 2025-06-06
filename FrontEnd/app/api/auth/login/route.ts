@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  console.log("Received request in /api/auth/login");
   try {
     const body = await request.json();
     const { username, password } = body as {
@@ -15,7 +16,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const flaskRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
+    console.log(`${process.env.NEXT_PUBLIC_API_URL}/login`)
+    const flaskRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
