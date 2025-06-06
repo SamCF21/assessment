@@ -55,7 +55,7 @@ export default function Page() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <span className="text-2xl font-bold bg-gradient-to-r from-emerald-800 to-emerald-600 bg-clip-text text-transparent">CROPWISE</span>
+            <Link href="/home" className="text-2xl font-bold bg-gradient-to-r from-emerald-800 to-emerald-600 bg-clip-text text-transparent"> CROPWISE</Link>
             <div className="flex items-center space-x-4">
               <Link href="/login" className="px-4 py-2 text-emerald-900 hover:text-emerald-800 font-medium transition-colors border-2 border-emerald-800/30 rounded-lg">Inicia Sesión</Link>
               <Link href="/signin" className="px-4 py-2 bg-emerald-800/80 text-white rounded-lg hover:bg-emerald-800 transition-colors font-medium">Regístrate</Link>
