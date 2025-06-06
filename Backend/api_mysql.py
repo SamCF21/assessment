@@ -19,7 +19,7 @@ CORS(app)
 import os
 
 DB_CONFIG = {
-    'host': os.getenv("DB_HOST", "localhost"),
+    'host': os.getenv("DB_HOST", "172.22.0.133"),
     'port': int(os.getenv("DB_PORT", 3306)),
     'database': os.getenv("DB_NAME", "crop_classifier_db"),
     'user': os.getenv("DB_USER", "usuario_app"),
@@ -103,7 +103,7 @@ def token_required(f):
         return f(current_user_id, *args, **kwargs)
     return decorated
 
-@app.route("/api/auth/signin", methods=["POST"])
+@app.route("/api/v1/auth/signin", methods=["POST"])
 def register_user():
     """Registrar nuevo usuario"""
     try:
@@ -160,7 +160,7 @@ def register_user():
     except Error as e:
         return jsonify({'error': f'Error de BD: {str(e)}'}), 500
 
-@app.route("/api/auth/login", methods=["POST"])
+@app.route("/api/v1/auth/login", methods=["POST"])
 def login_user():
     """Iniciar sesión"""
     try:
@@ -206,7 +206,7 @@ def login_user():
     except Error as e:
         return jsonify({'error': f'Error: {str(e)}'}), 500
 
-@app.route('/predict', methods=['POST'])
+@app.route('/api/v1/predict', methods=['POST'])
 @token_required
 def predict_crop(current_user_id):
     """Predicción de cultivos para usuario autenticado"""
@@ -288,7 +288,7 @@ def predict_crop(current_user_id):
     except Exception as e:
         return jsonify({'error': f'Error en predicción: {str(e)}'}), 500
 
-@app.route('/predict-simple', methods=['POST'])
+@app.route('/api/v1/predict-simple', methods=['POST'])
 def predict_simple():
     """Predicción simple sin autenticación (para pruebas)"""
     try:
@@ -328,7 +328,7 @@ def predict_simple():
     except Exception as e:
         return jsonify({'error': f'Error en predicción: {str(e)}'}), 500
 
-@app.route('/health', methods=['GET'])
+@app.route('/api/v1/health', methods=['GET'])
 def health_check():
     """Verificar estado de la API"""
     model_status = "loaded" if MODEL is not None else "not_loaded"
@@ -351,7 +351,7 @@ def health_check():
         'timestamp': datetime.now().isoformat()
     })
 
-@app.route('/crops', methods=['GET'])
+@app.route('/api/v1/crops', methods=['GET'])
 def get_all_crops():
     """Obtener lista de todos los cultivos"""
     try:
