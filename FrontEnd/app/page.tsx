@@ -22,32 +22,6 @@ export default function Home() {
     }));
   };
 
-  /*const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const parsedData = {
-      nitrogen: parseInt(formData.nitrogen, 10),
-      phosphorus: parseInt(formData.phosphorus, 10),
-      potassium: parseInt(formData.potassium, 10),
-      temperature: parseFloat(formData.temperature),
-      humidity: parseFloat(formData.humidity),
-      ph: parseFloat(formData.ph),
-      rainfall: parseFloat(formData.rainfall)
-    };
-
-    const inputArray = [
-      parsedData.nitrogen,
-      parsedData.phosphorus,
-      parsedData.potassium,
-      parsedData.temperature,
-      parsedData.humidity,
-      parsedData.ph,
-      parsedData.rainfall
-    ];
-
-    console.log('Input:', inputArray)
-
-  };*/
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   

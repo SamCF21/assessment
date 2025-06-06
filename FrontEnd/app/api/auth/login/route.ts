@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const flaskRes = await fetch("http://localhost:5001/login", {
+    const flaskRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
@@ -29,10 +29,11 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(flaskData, { status: 200 });
 
-  } catch (err: any) {
-    console.error("Login error:", err);
+  } catch (err: unknown) {
+    console.error("Error in /api/auth/signin", err);
+    const message = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json(
-      { error: "Internal error in login proxy", detail: err.message },
+      { error: "Internal error in signin proxy", detail: message },
       { status: 500 }
     );
   }

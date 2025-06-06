@@ -103,7 +103,7 @@ def token_required(f):
         return f(current_user_id, *args, **kwargs)
     return decorated
 
-@app.route('/register', methods=['POST'])
+@app.route("/api/auth/signin", methods=["POST"])
 def register_user():
     """Registrar nuevo usuario"""
     try:
@@ -160,7 +160,7 @@ def register_user():
     except Error as e:
         return jsonify({'error': f'Error de BD: {str(e)}'}), 500
 
-@app.route('/login', methods=['POST'])
+@app.route("/api/auth/login", methods=["POST"])
 def login_user():
     """Iniciar sesión"""
     try:

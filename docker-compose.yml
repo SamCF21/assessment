@@ -68,6 +68,8 @@ services:
       - backend2
     expose:
       - "3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://nginx_container
     networks:
       - cloudy
 

@@ -18,3 +18,4 @@ EXPOSE 3000
 
 # Comando que se ejecuta al iniciar el contenedor
 CMD ["npm", "start"]
+
