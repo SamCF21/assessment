@@ -46,22 +46,28 @@ export default function SigninPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-8">
-        <h1 className="text-2xl font-bold mb-6 text-center">Sign Up</h1>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-emerald-300/80 via-white to-emerald-100">
+      <div className="w-full max-w-md border border-emerald-300 bg-white rounded-2xl shadow-md p-8">
+        <h1 className="text-2xl font-bold mb-6 text-center text-black">Crear Cuenta</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {["username", "email", "password", "full_name", "location"].map((field) => (
-            <div key={field}>
-              <label htmlFor={field} className="block text-sm font-medium text-gray-700 capitalize">
-                {field.replace("_", " ")}
+          {[
+            { name: "username", label: "Usuario" },
+            { name: "email", label: "Correo Electrónico" },
+            { name: "password", label: "Contraseña" },
+            { name: "full_name", label: "Nombre Completo" },
+            { name: "location", label: "Ubicación" }
+          ].map(({ name, label }) => (
+            <div key={name}>
+              <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+                {label}
               </label>
               <input
-                type={field === "password" ? "password" : "text"}
-                id={field}
-                name={field}
-                value={formData[field as keyof typeof formData]}
+                type={name === "password" ? "password" : "text"}
+                id={name}
+                name={name}
+                value={formData[name as keyof typeof formData]}
                 onChange={handleChange}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-black"
                 required
               />
             </div>
@@ -72,9 +78,9 @@ export default function SigninPage() {
 
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition"
+            className="w-full bg-emerald-800/80 text-white py-2 px-4 rounded-md hover:bg-emerald-800 transition"
           >
-            Create Account
+            Crear Cuenta
           </button>
         </form>
       </div>
