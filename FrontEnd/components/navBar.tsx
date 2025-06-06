@@ -13,8 +13,8 @@ export default function Navbar() {
     };
 
     const navItems = [
-    { href: '/home', label: 'Inicio', icon: '/icons/house.svg' },
-    { href: '/', label: 'Predicción de Cultivo', icon: '/icons/sprout.svg' },
+    { href: '/', label: 'Inicio', icon: '/icons/house.svg' },
+    { href: '/predict', label: 'Predicción de Cultivo', icon: '/icons/sprout.svg' },
     { href: '/about', label: 'Acerca de Nosotras', icon: '/icons/users.svg' },
     ];
 
