@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const flaskRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`, {
+        const flaskRes = await fetch("http://10.49.12.49:1010/login", {
 
             method: 'POST',
             headers: {"Content-Type": "application/json"},
