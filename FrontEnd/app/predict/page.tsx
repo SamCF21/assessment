@@ -45,7 +45,7 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch('http://10.49.12.49:1010/predict-simple', {
+      const response = await fetch('http://localhost:5001/predict-simple', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

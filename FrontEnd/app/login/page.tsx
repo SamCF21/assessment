@@ -32,7 +32,7 @@ export default function LoginPage() {
       setSuccessMsg(`Welcome ${data.user.username}`);
       setErrorMsg('');
       localStorage.setItem('token', data.token);
-      router.push('/');
+      router.push('/predict');
     }
   }; 
 

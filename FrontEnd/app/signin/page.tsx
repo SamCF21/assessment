@@ -9,8 +9,7 @@ export default function SigninPage() {
     username: "",
     email: "",
     password: "",
-    full_name: "",
-    location: "",
+    full_name: ""
   });
 
   const [errorMsg, setErrorMsg] = useState("");
@@ -40,7 +39,7 @@ export default function SigninPage() {
     } else {
       setSuccessMsg("User registered successfully!");
       setErrorMsg("");
-      setFormData({ username: "", email: "", password: "", full_name: "", location: "" });
+      setFormData({ username: "", email: "", password: "", full_name: "" });
       router.push("/");
     }
   };
@@ -54,8 +53,7 @@ export default function SigninPage() {
             { name: "username", label: "Usuario" },
             { name: "email", label: "Correo Electrónico" },
             { name: "password", label: "Contraseña" },
-            { name: "full_name", label: "Nombre Completo" },
-            { name: "location", label: "Ubicación" }
+            { name: "full_name", label: "Nombre Completo" }
           ].map(({ name, label }) => (
             <div key={name}>
               <label htmlFor={name} className="block text-sm font-medium text-gray-700">

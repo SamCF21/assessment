@@ -7,22 +7,19 @@ export async function POST(request: NextRequest) {
             username,
             email,
             password,
-            full_name,
-            location,
+            full_name
         } = body as {
             username: string;
             email: string;
             password: string;
             full_name: string;
-            location: string;
         };
 
         if (
             !username ||
             !email ||
             !password ||
-            !full_name ||
-            !location 
+            !full_name 
         ) {
             return NextResponse.json(
                 {error: "Missing obligatory fields"},
@@ -30,7 +27,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const flaskRes = await fetch("http://10.49.12.49:1010/api/auth/signin", {
+        const flaskRes = await fetch("http://localhost:5001/api/auth/signin", {
 
             method: 'POST',
             headers: {"Content-Type": "application/json"},
@@ -38,8 +35,7 @@ export async function POST(request: NextRequest) {
                 username,
                 email,
                 password,
-                full_name,
-                location,
+                full_name
             }),
         });
 
