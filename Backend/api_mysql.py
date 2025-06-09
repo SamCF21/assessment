@@ -12,12 +12,12 @@ import jwt
 from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = 'clave_secreta_muy_segura'
-CORS(app)
+app.secret_key = 'test@byte87-' # Cambiar por una clave secreta más segura en producción 
+CORS(app, origins=['http://localhost:3000'])
 
 # Configuración de la base de datos
 import os
-
+"""
 DB_CONFIG = {
     'host': os.getenv("DB_HOST", "localhost"),
     'port': int(os.getenv("DB_PORT", 3306)),
@@ -26,8 +26,15 @@ DB_CONFIG = {
     'password': os.getenv("DB_PASSWORD", "pass_app"),
     'charset': 'utf8mb4',
     'collation': 'utf8mb4_unicode_ci'
+}"""
+DB_CONFIG = {
+    'host': 'localhost',
+    'database': 'crop_classifier_db',
+    'user': 'root',
+    'password': '', #Cambiar
+    'charset': 'utf8mb4',
+    'collation': 'utf8mb4_unicode_ci'
 }
-
 # Definir la clase del modelo
 class NClassifier(nn.Module):
     def __init__(self, architecture):
@@ -128,15 +135,14 @@ def register_user():
         # Crear usuario
         password_hash = hash_password(data['password'])
         insert_query = """
-            INSERT INTO users (username, email, password_hash, full_name, location)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO users (username, email, password_hash, full_name)
+            VALUES (%s, %s, %s, %s)
         """
         cursor.execute(insert_query, (
             data['username'],
             data['email'], 
             password_hash,
-            data.get('full_name'),
-            data.get('location')
+            data.get('full_name')
         ))
         
         user_id = cursor.lastrowid
@@ -174,7 +180,7 @@ def login_user():
         
         cursor = connection.cursor(dictionary=True)
         cursor.execute("""
-            SELECT user_id, username, password_hash, full_name, location 
+            SELECT user_id, username, password_hash, full_name 
             FROM users WHERE username = %s
         """, (data['username'],))
         
@@ -196,8 +202,7 @@ def login_user():
             'user': {
                 'user_id': user['user_id'],
                 'username': user['username'],
-                'full_name': user['full_name'],
-                'location': user['location']
+                'full_name': user['full_name']
             },
             'token': token,
             'success': True
@@ -247,11 +252,11 @@ def predict_crop(current_user_id):
         # Insertar datos climáticos
         climate_query = """
             INSERT INTO user_climate_data 
-            (user_id, nitrogen, phosphorus, potassium, temperature, humidity, ph_level, rainfall, location)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            (user_id, nitrogen, phosphorus, potassium, temperature, humidity, ph_level, rainfall)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
         cursor.execute(climate_query, (
-            current_user_id, *features, data.get('location')
+            current_user_id, *features
         ))
         data_id = cursor.lastrowid
         
