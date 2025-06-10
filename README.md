@@ -13,11 +13,11 @@ Cuenta con los archivos necesarios para crear el modelo de IA, crear la base de 
 #### [FrontEnd](./FrontEnd/)
 Cuenta con los archivos necesarios para crear la instancia utilizando Next.js como principal framework, así como las rutas de conexión al backend.
 #### [Docs](./Docs/)
-Documentación centralizada del proyecto, cuenta con el esquema descrito en la sección de [Documentación realizada](#documentación-realizada)
+Documentación centralizada del proyecto, cuenta con el esquema descrito en la sección de [Documentación Realizada](#documentación-realizada)
 #### [conf.d](conf.d/) y archivos [cloudinit.yaml](cloudinit.yaml), [docker-compose.yml](/docker-compose.yml) y [nginx.conf](nginx.conf)
 Archivos ocupados en la instanciación y configuración del proyecto en la nube privada.
 
-### Documentación general realizada
+### Documentación Realizada
 - [README](README.md) con descripción del proyecto (este documento)
 - [API](./Docs/Sistema.pdf)
 - [Arquitectura](./Docs/Arquitectura.md)
