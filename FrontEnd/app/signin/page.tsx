@@ -40,7 +40,7 @@ export default function SigninPage() {
       setSuccessMsg("User registered successfully!");
       setErrorMsg("");
       setFormData({ username: "", email: "", password: "", full_name: "" });
-      router.push("/");
+      router.push("/predict");
     }
   };
 
