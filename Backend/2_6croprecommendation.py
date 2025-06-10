@@ -13,7 +13,7 @@ characteristics = dataset[["N", "P", "K", "temperature", "humidity", "ph", "rain
 label = dataset["label"]
 # print(label)
 
-"""El modelo no puede operar con texto, por lo cual desginamos un valor numérico a cada label."""
+# El modelo no puede operar con texto, por lo cual desginamos un valor numérico a cada label.
 
 crop_code = LabelEncoder() # Crea el codificador de etiquetas
 label = crop_code.fit_transform(label) # Se reemplaza cada label por un número

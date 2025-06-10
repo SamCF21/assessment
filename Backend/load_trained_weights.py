@@ -21,7 +21,9 @@ label_encoded = crop_code.fit_transform(label)
 
 # Definir la mejor arquitectura (la #2 que tuvo 95.45% accuracy)
 best_architecture = [
-    nn.Linear(7, 128),
+    nn.Linear(7, 256),
+    nn.ReLU(),
+    nn.Linear(256, 128),
     nn.ReLU(),
     nn.Linear(128, 64),
     nn.ReLU(),
@@ -36,7 +38,10 @@ print("Intentando cargar modelo entrenado...")
 # Intentar cargar el modelo original entrenado
 try:
     # Cargar usando diferentes métodos
-    original_model = torch.load('modelo_crop.pkl', map_location='cpu', weights_only=False)
+    # original_model = torch.load('modelo_crop.pkl', map_location='cpu', weights_only=False)
+
+    with open('modelo_crop.pkl', 'rb') as f:
+        original_model = pickle.load(f)
     
     if hasattr(original_model, 'state_dict'):
         # Si es el modelo directamente

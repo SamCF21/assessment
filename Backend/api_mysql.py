@@ -12,7 +12,7 @@ import jwt
 from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = 'test@byte87-' # Cambiar por una clave secreta más segura en producción 
+app.secret_key = '' # Establecer contraseña
 CORS(app, origins=['http://localhost:3000'])
 
 # Configuración de la base de datos
@@ -45,7 +45,6 @@ class NClassifier(nn.Module):
         return self.encoder(x)
 
 def load_model():
-    """Cargar modelo con manejo de errores mejorado"""
     try:
         # Intentar cargar el modelo guardado para API
         with open('modelo_crop_api.pkl', 'rb') as f:
@@ -76,11 +75,10 @@ def load_model():
         print(f"Error cargando modelo: {e}")
         return None, None
 
-# Cargar modelo al iniciar
+# Se carga modelo al iniciar
 MODEL, CROP_ENCODER = load_model()
 
 def get_db_connection():
-    """Crear conexión a la base de datos"""
     try:
         connection = mysql.connector.connect(**DB_CONFIG)
         return connection
@@ -89,11 +87,9 @@ def get_db_connection():
         return None
 
 def hash_password(password):
-    """Hash de contraseña simple"""
     return hashlib.sha256(password.encode()).hexdigest()
 
 def token_required(f):
-    """Decorador para verificar autenticación"""
     @wraps(f)
     def decorated(*args, **kwargs):
         token = request.headers.get('Authorization')
@@ -112,7 +108,6 @@ def token_required(f):
 
 @app.route("/api/auth/signin", methods=["POST"])
 def register_user():
-    """Registrar nuevo usuario"""
     try:
         data = request.get_json()
         required_fields = ['username', 'email', 'password']
@@ -168,7 +163,6 @@ def register_user():
 
 @app.route("/api/auth/login", methods=["POST"])
 def login_user():
-    """Iniciar sesión"""
     try:
         data = request.get_json()
         if not data.get('username') or not data.get('password'):
@@ -214,7 +208,6 @@ def login_user():
 @app.route('/predict', methods=['POST'])
 @token_required
 def predict_crop(current_user_id):
-    """Predicción de cultivos para usuario autenticado"""
     try:
         data = request.get_json()
         
@@ -295,7 +288,6 @@ def predict_crop(current_user_id):
 
 @app.route('/predict-simple', methods=['POST'])
 def predict_simple():
-    """Predicción simple sin autenticación (para pruebas)"""
     try:
         data = request.get_json()
         
@@ -335,7 +327,6 @@ def predict_simple():
 
 @app.route('/health', methods=['GET'])
 def health_check():
-    """Verificar estado de la API"""
     model_status = "loaded" if MODEL is not None else "not_loaded"
     
     try:
@@ -358,7 +349,6 @@ def health_check():
 
 @app.route('/crops', methods=['GET'])
 def get_all_crops():
-    """Obtener lista de todos los cultivos"""
     try:
         connection = get_db_connection()
         if not connection:
