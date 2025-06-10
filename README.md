@@ -19,18 +19,15 @@ Archivos ocupados en la instanciación y configuración del proyecto en la nube 
 
 ### Documentación general realizada
 - [README](README.md) con descripción del proyecto (este documento)
-- API
-- Arquitectura
-- Configuraciones
-- Descripción de la aplicación de IA
-- Diseño de base de datos y justificación
-- Documentación del Sistema 
-- Manual de uso
-- Red
-- Plan de conexión con el resto de la nube
-- Pruebas realizadas
+- [API](./Docs/Sistema.pdf)
+- [Arquitectura](./Docs/Arquitectura.md)
+- [Configuraciones](./Docs/Sistema.pdf)
+- [Descripción de la aplicación de IA](./Docs/Sistema.pdf)
+- [Diseño de base de datos y justificación](./Docs/Sistema.pdf)
+- [Documentación del Sistema](./Docs/Sistema.pdf)
+- [Manual de uso](./Docs/Manual.md)
+- [Red](./Docs/Arquitectura.md)
+- [Plan de conexión con el resto de la nube](./Docs/Arquitectura.md)
+- [Pruebas realizadas](./Docs/Pruebas.pdf)
 
-Las secciones de API, Configuraciones, Descripción de la aplicación de IA, Diseño de base de datos y justificación están contenidas en el archivo de [Documentación del Sistema](./Docs/Sistema.pdf). Mientras que las secciones de Arquitectura, Red y Plan de conexión con el resto de la nube están contenidas en el documento []
-
-#### Documentos de Soporte
-(IEEE 1016-2009)
+Las secciones de API, Configuraciones, Descripción de la aplicación de IA, Diseño de base de datos y justificación están contenidas en el archivo de [Documentación del Sistema](./Docs/Sistema.pdf), el cual está basado en el estándar IEEE 1016. Mientras que las secciones de Arquitectura, Red y Plan de conexión con el resto de la nube están contenidas en el documento de [Arquitectura](./Docs/Arquitectura.md).
