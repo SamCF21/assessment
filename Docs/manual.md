@@ -1,9 +1,10 @@
 # Manual de uso
-Debido a la complejidad de la aplicación se requieren de varios componentes para ejecutarla debidamente. Estos se cubren de manera general en Requisitos Previos, por lo que siguen siendo parte esencial para poder probar el sistema.
+Debido a la complejidad de la aplicación se requieren de varios componentes para ejecutarla debidamente. Estos se cubren de manera puntual en Requisitos Previos y son indispensables para el correcto funcionamiento del sistema.
 
 ### Requisitos previos
 #### 1. Hacer git pull del repositorio
-Desde la terminal, correr el comando `git clone git@github.com:SamCF21/assessment.git`
+Desde la terminal, correr el comando `git clone git@github.com:SamCF21/assessment.git`.  
+Esto si se desea clonar por SSH, aunque es de libre elección.
 
 #### 2. Instalación y configuración de MySQL.
 Instalar [MySQL Community Server](https://dev.mysql.com/downloads/mysql/) y [MySQL Workbench](https://dev.mysql.com/downloads/workbench/).  
@@ -14,7 +15,7 @@ En MySQL Workbench, crear una conexión con la siguiente información:
 - Puerto: Predeterminado (3306)
 - Username: root
 
-Dentro de esta conexión, en el menú seleccionar 'Abrir Script SQL' y abrir el archivo [crop_classifier_db.sql](../Backend/crop_classifier_db.sql) y ejecutar el archivo completo para crear la base de datos.
+Dentro de esta conexión, en el menú seleccionar 'Abrir Script SQL', abrir el archivo [crop_classifier_db.sql](../Backend/crop_classifier_db.sql) y ejecutar el archivo completo para crear la base de datos.
 
 #### 3. Instalación de Python y librerías.
 Instalar [Python 3.13](https://www.python.org/downloads/).  
@@ -36,4 +37,4 @@ Desde la carpeta de FrontEnd, correr el comando:
 `npm run dev` 
 
 #### 3. Ejecutar aplicación
-La aplicaicón se iniciará automáticamente y será accesible desde [http://localhost:3000](http://localhost:3000).
+La aplicación se iniciará automáticamente y será accesible desde [http://localhost:3000](http://localhost:3000).
