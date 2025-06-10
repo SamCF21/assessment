@@ -1,0 +1,20 @@
+#cloud-config
+ssh_pwauth: true
+preserve_hostname: false
+hostname: front_1
+
+users:
+  - name: cropwise
+    plain_text_passwd: cropwise
+    no_user_group: true
+    groups: sudo, adm
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHy9Oj/o1ah4bt3MAF6vIJ1sd+IbfTYttslungsbuFUq
+ssh_deletekeys: false
+
+chpasswd:
+  list: |
+    cropwise:cropwise
+  expire: False

@@ -1,0 +1,87 @@
+services:
+  loadbalancer:
+    image: nginx:latest
+    container_name: nginx_container
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./conf.d:/etc/nginx/conf.d
+    networks:
+      - cloudy
+
+  db:
+    image: mysql:8
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: crop_classifier_db
+      MYSQL_USER: usuario_app
+      MYSQL_PASSWORD: pass_app
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./Backend/crop_classifier_db.sql:/docker-entrypoint-initdb.d/init.sql
+
+    networks:
+      - cloudy
+
+  backend1:
+    build:
+      context: ./Backend
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: crop_classifier_db
+      DB_USER: usuario_app
+      DB_PASSWORD: pass_app
+    ports:
+      - "5001:5001"
+    networks:
+      - cloudy
+
+  backend2:
+    build:
+      context: ./Backend
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: crop_classifier_db
+      DB_USER: usuario_app
+      DB_PASSWORD: pass_app
+    ports:
+      - "5002:5001"
+    networks:
+      - cloudy
+
+  frontend:
+    build:
+      context: ./FrontEnd
+    depends_on:
+      - backend1
+      - backend2
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://nginx_container
+    networks:
+      - cloudy
+
+  
+
+volumes:
+  db_data:
+
+networks:
+  cloudy:
+    driver: bridge

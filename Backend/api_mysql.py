@@ -12,19 +12,29 @@ import jwt
 from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = 'clave_secreta_muy_segura'
-CORS(app)
+app.secret_key = '' # Establecer contraseña
+CORS(app, origins=['http://localhost:3000'])
 
 # Configuración de la base de datos
+import os
+"""
+DB_CONFIG = {
+    'host': os.getenv("DB_HOST", "localhost"),
+    'port': int(os.getenv("DB_PORT", 3306)),
+    'database': os.getenv("DB_NAME", "crop_classifier_db"),
+    'user': os.getenv("DB_USER", "usuario_app"),
+    'password': os.getenv("DB_PASSWORD", "pass_app"),
+    'charset': 'utf8mb4',
+    'collation': 'utf8mb4_unicode_ci'
+}"""
 DB_CONFIG = {
     'host': 'localhost',
     'database': 'crop_classifier_db',
     'user': 'root',
-    'password': '', #cambiar
+    'password': '', #Cambiar
     'charset': 'utf8mb4',
     'collation': 'utf8mb4_unicode_ci'
 }
-
 # Definir la clase del modelo
 class NClassifier(nn.Module):
     def __init__(self, architecture):
@@ -35,7 +45,6 @@ class NClassifier(nn.Module):
         return self.encoder(x)
 
 def load_model():
-    """Cargar modelo con manejo de errores mejorado"""
     try:
         # Intentar cargar el modelo guardado para API
         with open('modelo_crop_api.pkl', 'rb') as f:
@@ -66,11 +75,10 @@ def load_model():
         print(f"Error cargando modelo: {e}")
         return None, None
 
-# Cargar modelo al iniciar
+# Se carga modelo al iniciar
 MODEL, CROP_ENCODER = load_model()
 
 def get_db_connection():
-    """Crear conexión a la base de datos"""
     try:
         connection = mysql.connector.connect(**DB_CONFIG)
         return connection
@@ -79,11 +87,9 @@ def get_db_connection():
         return None
 
 def hash_password(password):
-    """Hash de contraseña simple"""
     return hashlib.sha256(password.encode()).hexdigest()
 
 def token_required(f):
-    """Decorador para verificar autenticación"""
     @wraps(f)
     def decorated(*args, **kwargs):
         token = request.headers.get('Authorization')
@@ -100,9 +106,8 @@ def token_required(f):
         return f(current_user_id, *args, **kwargs)
     return decorated
 
-@app.route('/register', methods=['POST'])
+@app.route("/api/auth/signin", methods=["POST"])
 def register_user():
-    """Registrar nuevo usuario"""
     try:
         data = request.get_json()
         required_fields = ['username', 'email', 'password']
@@ -125,15 +130,14 @@ def register_user():
         # Crear usuario
         password_hash = hash_password(data['password'])
         insert_query = """
-            INSERT INTO users (username, email, password_hash, full_name, location)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO users (username, email, password_hash, full_name)
+            VALUES (%s, %s, %s, %s)
         """
         cursor.execute(insert_query, (
             data['username'],
             data['email'], 
             password_hash,
-            data.get('full_name'),
-            data.get('location')
+            data.get('full_name')
         ))
         
         user_id = cursor.lastrowid
@@ -157,9 +161,8 @@ def register_user():
     except Error as e:
         return jsonify({'error': f'Error de BD: {str(e)}'}), 500
 
-@app.route('/login', methods=['POST'])
+@app.route("/api/auth/login", methods=["POST"])
 def login_user():
-    """Iniciar sesión"""
     try:
         data = request.get_json()
         if not data.get('username') or not data.get('password'):
@@ -171,7 +174,7 @@ def login_user():
         
         cursor = connection.cursor(dictionary=True)
         cursor.execute("""
-            SELECT user_id, username, password_hash, full_name, location 
+            SELECT user_id, username, password_hash, full_name 
             FROM users WHERE username = %s
         """, (data['username'],))
         
@@ -193,8 +196,7 @@ def login_user():
             'user': {
                 'user_id': user['user_id'],
                 'username': user['username'],
-                'full_name': user['full_name'],
-                'location': user['location']
+                'full_name': user['full_name']
             },
             'token': token,
             'success': True
@@ -206,7 +208,6 @@ def login_user():
 @app.route('/predict', methods=['POST'])
 @token_required
 def predict_crop(current_user_id):
-    """Predicción de cultivos para usuario autenticado"""
     try:
         data = request.get_json()
         
@@ -244,11 +245,11 @@ def predict_crop(current_user_id):
         # Insertar datos climáticos
         climate_query = """
             INSERT INTO user_climate_data 
-            (user_id, nitrogen, phosphorus, potassium, temperature, humidity, ph_level, rainfall, location)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            (user_id, nitrogen, phosphorus, potassium, temperature, humidity, ph_level, rainfall)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
         cursor.execute(climate_query, (
-            current_user_id, *features, data.get('location')
+            current_user_id, *features
         ))
         data_id = cursor.lastrowid
         
@@ -287,7 +288,6 @@ def predict_crop(current_user_id):
 
 @app.route('/predict-simple', methods=['POST'])
 def predict_simple():
-    """Predicción simple sin autenticación (para pruebas)"""
     try:
         data = request.get_json()
         
@@ -327,7 +327,6 @@ def predict_simple():
 
 @app.route('/health', methods=['GET'])
 def health_check():
-    """Verificar estado de la API"""
     model_status = "loaded" if MODEL is not None else "not_loaded"
     
     try:
@@ -350,7 +349,6 @@ def health_check():
 
 @app.route('/crops', methods=['GET'])
 def get_all_crops():
-    """Obtener lista de todos los cultivos"""
     try:
         connection = get_db_connection()
         if not connection:

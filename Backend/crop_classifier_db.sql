@@ -5,25 +5,22 @@ DROP DATABASE IF EXISTS crop_classifier_db;
 CREATE DATABASE crop_classifier_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE crop_classifier_db;
 
--- =====================================================
+
 -- TABLA DE USUARIOS
--- =====================================================
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     full_name VARCHAR(100),
-    location VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     INDEX idx_username (username),
     INDEX idx_email (email)
 ) ENGINE=InnoDB;
 
--- =====================================================
+
 -- TABLA DE CULTIVOS
--- =====================================================
 CREATE TABLE crops (
     crop_id INT AUTO_INCREMENT PRIMARY KEY,
     crop_name VARCHAR(50) NOT NULL UNIQUE,
@@ -36,9 +33,8 @@ CREATE TABLE crops (
     INDEX idx_crop_label (crop_label)
 ) ENGINE=InnoDB;
 
--- =====================================================
+
 -- TABLA DE DATOS CLIMÁTICOS DEL USUARIO
--- =====================================================
 CREATE TABLE user_climate_data (
     data_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -52,7 +48,6 @@ CREATE TABLE user_climate_data (
     ph_level DECIMAL(4,2) NOT NULL COMMENT 'pH del suelo',
     rainfall DECIMAL(8,2) NOT NULL COMMENT 'Precipitación mm',
     
-    location VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
@@ -61,9 +56,8 @@ CREATE TABLE user_climate_data (
     INDEX idx_created_at (created_at)
 ) ENGINE=InnoDB;
 
--- =====================================================
+
 -- TABLA DE PREDICCIONES
--- =====================================================
 CREATE TABLE crop_predictions (
     prediction_id INT AUTO_INCREMENT PRIMARY KEY,
     data_id INT NOT NULL,
@@ -85,10 +79,8 @@ CREATE TABLE crop_predictions (
     INDEX idx_confidence_score (confidence_score DESC)
 ) ENGINE=InnoDB;
 
--- =====================================================
--- INSERTAR DATOS INICIALES DE CULTIVOS
--- =====================================================
 
+-- INSERTAR DATOS INICIALES DE CULTIVO
 INSERT INTO crops (crop_label, crop_name, scientific_name, description) VALUES
 (0, 'apple', 'Malus domestica', 'Temperate fruit tree'),
 (1, 'banana', 'Musa acuminata', 'Tropical fruit crop'),
@@ -113,9 +105,8 @@ INSERT INTO crops (crop_label, crop_name, scientific_name, description) VALUES
 (20, 'rice', 'Oryza sativa', 'Cereal grain crop requiring flooded fields'),
 (21, 'watermelon', 'Citrullus lanatus', 'Large fruit with high water content');
 
--- =====================================================
+
 -- VISTAS ÚTILES
--- =====================================================
 
 -- Vista para consultas de predicciones con detalles
 CREATE VIEW v_prediction_details AS
@@ -136,8 +127,7 @@ SELECT
     ucd.temperature,
     ucd.humidity,
     ucd.ph_level,
-    ucd.rainfall,
-    ucd.location as input_location
+    ucd.rainfall
     
 FROM crop_predictions cp
 JOIN users u ON cp.user_id = u.user_id
