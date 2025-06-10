@@ -44,6 +44,8 @@ export default function Home() {
       rainfall: parseFloat(formData.rainfall)
     };
 
+    console.log('Enviando datos a la API:', parsedData);
+
     try {
       const response = await fetch('http://localhost:5001/predict-simple', {
         method: 'POST',
@@ -118,10 +120,10 @@ export default function Home() {
             {result ? (
               <>
                 <p className="text-lg text-emerald-900 font-semibold">
-                  Recommended Crop: <span className="font-bold text-emerald-700">{result.crop}</span>
+                  Cultivo Recomendado: <span className="font-bold text-emerald-700">{result.crop}</span>
                 </p>
                 <p className="text-sm text-emerald-800">
-                  Confidence: {(result.confidence * 100).toFixed(2)}%
+                  Confianza: {(result.confidence * 100).toFixed(2)}%
                 </p>
               </>
             ) : (
